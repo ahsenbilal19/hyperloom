@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Star, Truck, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import ProductVisual from "@/components/ProductVisual";
+import AddToCart from "@/components/AddToCart";
 import { money } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -31,7 +32,7 @@ export default async function ProductPage({ params }) {
             {p.compare_at_cents && <span className="pb-1 text-slate-500 line-through">{money(p.compare_at_cents)}</span>}
           </div>
           <p className={`mt-2 text-sm ${p.stock < 25 ? "text-amber-400" : "text-emerald-400"}`}>{p.stock < 25 ? `Only ${p.stock} left` : "In stock"}</p>
-          <button className="mt-6 rounded-full bg-linear-to-r from-cyan-500 to-violet-600 px-8 py-4 font-semibold shadow-[0_0_40px_rgba(34,211,238,.3)] transition hover:scale-[1.03]">Add to cart</button>
+          <AddToCart product={p} />
           <div className="mt-8 flex gap-6 text-sm text-slate-400">
             <span className="flex items-center gap-2"><Truck size={16} /> Free shipping</span>
             <span className="flex items-center gap-2"><ShieldCheck size={16} /> 2-year warranty</span>

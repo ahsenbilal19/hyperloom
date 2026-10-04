@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
+import CartButton from "@/components/CartButton";
 
 export default function Navbar() {
   return (
@@ -7,10 +7,8 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <Link href="/" className="text-xl font-bold tracking-[0.25em]"><span className="grad-text">HYPERLOOM</span></Link>
         <div className="flex items-center gap-6 text-sm">
-          <Link href="/#shop" className="hover:text-cyan-300 transition">Shop</Link>
-          <button className="glass relative rounded-full p-2.5 hover:border-cyan-400 transition" aria-label="Cart">
-            <ShoppingBag size={18} />
-          </button>
+          <Link href="/#shop" className="transition hover:text-cyan-300">Shop</Link>
+          <CartButton />
         </div>
       </nav>
     </header>
