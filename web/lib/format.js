@@ -1,0 +1,1 @@
+export const money = (cents) => `$${(cents / 100).toFixed(2)}`;

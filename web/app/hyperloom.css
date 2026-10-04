@@ -1,0 +1,21 @@
+:root { --bg:#05060f; --line:rgba(255,255,255,.09); --muted:#8e98b8; }
+body { background: var(--bg); color: #e8edff; min-height: 100vh; font-family: system-ui, "Segoe UI", sans-serif; }
+body::before { content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background: radial-gradient(800px 500px at 15% -5%, rgba(34,211,238,.16), transparent),
+              radial-gradient(800px 500px at 100% 10%, rgba(167,139,250,.18), transparent),
+              linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px) 0 0/48px 48px,
+              linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0/48px 48px; }
+.glass { background: rgba(255,255,255,.04); border: 1px solid var(--line); backdrop-filter: blur(14px); }
+.grad-text { background: linear-gradient(90deg, #22d3ee, #a78bfa, #f472b6); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shine 6s linear infinite; }
+.pv { position: relative; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; border-radius: 18px;
+  background: radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--a) 28%, transparent), transparent 62%), #0a0c1a; }
+.pv-core { width: 44%; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; z-index: 1;
+  background: radial-gradient(circle at 30% 30%, var(--b), var(--a) 55%, #0b1020); box-shadow: 0 0 70px var(--a); animation: float 5s ease-in-out infinite; }
+.pv-icon { width: 46%; height: 46%; color: #fff; filter: drop-shadow(0 0 8px rgba(255,255,255,.6)); }
+.pv-ring { position: absolute; inset: 15%; border-radius: 50%; border: 1px dashed var(--a); opacity: .4; animation: spin 18s linear infinite; }
+.pv-ring.r2 { inset: 5%; opacity: .25; animation-direction: reverse; animation-duration: 28s; }
+.card-hover { transition: border-color .3s, box-shadow .3s; }
+.card-hover:hover { border-color: rgba(34,211,238,.55); box-shadow: 0 10px 40px rgba(34,211,238,.14); }
+@keyframes float { 50% { transform: translateY(-10px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shine { to { background-position: 200% center; } }
