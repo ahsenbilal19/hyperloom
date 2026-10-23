@@ -17,7 +17,7 @@ export default async function Success({ searchParams }) {
     const items = s.line_items.data.map((li) => ({
       product_id: li.price.product.metadata.product_id, name: li.description, qty: li.quantity, unit_price_cents: li.price.unit_amount,
     }));
-    const { data, error: e } = await supabaseAdmin.rpc("place_order", { p_session: s.id, p_email: s.customer_details?.email || null, p_total: s.amount_total, p_items: items });
+    const { data, error: e } = await supabaseAdmin.rpc("place_order", { p_session: s.id, p_email: s.customer_details?.email || null, p_total: s.amount_total, p_items: items, p_user: s.client_reference_id || null });
     if (e) throw new Error(e.message);
     order = {
       number: String(data).slice(0, 8).toUpperCase(), total: s.amount_total, email: s.customer_details?.email || "", items,

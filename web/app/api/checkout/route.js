@@ -1,5 +1,6 @@
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getUser } from "@/lib/serverAuth";
 
 export async function POST(req) {
   const { items } = await req.json().catch(() => ({}));
@@ -22,10 +23,11 @@ export async function POST(req) {
     });
   }
 
+  const user = await getUser(req);
   const origin = req.headers.get("origin") || new URL(req.url).origin;
   try {
     const session = await stripe.checkout.sessions.create({
-      mode: "payment", line_items,
+      mode: "payment", line_items, client_reference_id: user?.id, customer_email: user?.email,
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/`,
     });

@@ -3,18 +3,20 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import { useCart } from "@/components/CartProvider";
+import { useAuth } from "@/components/AuthProvider";
 import ProductVisual from "@/components/ProductVisual";
 import { money } from "@/lib/format";
 
 export default function CartDrawer() {
   const { items, open, setOpen, setQty, remove, total } = useCart();
+  const { session } = useAuth();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
   async function checkout() {
     setBusy(true); setErr("");
     try {
-      const r = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: items.map((i) => ({ id: i.id, qty: i.qty })) }) });
+      const r = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json", ...(session ? { Authorization: `Bearer ${session.access_token}` } : {}) }, body: JSON.stringify({ items: items.map((i) => ({ id: i.id, qty: i.qty })) }) });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || "Checkout failed");
       window.location.href = j.url;

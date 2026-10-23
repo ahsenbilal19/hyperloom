@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CartButton from "@/components/CartButton";
+import NavAuth from "@/components/NavAuth";
 
 export default function Navbar() {
   return (
@@ -8,6 +9,7 @@ export default function Navbar() {
         <Link href="/" className="text-xl font-bold tracking-[0.25em]"><span className="grad-text">HYPERLOOM</span></Link>
         <div className="flex items-center gap-6 text-sm">
           <Link href="/#shop" className="transition hover:text-cyan-300">Shop</Link>
+          <NavAuth />
           <CartButton />
         </div>
       </nav>
