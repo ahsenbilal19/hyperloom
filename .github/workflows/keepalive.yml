@@ -1,0 +1,15 @@
+name: Keep alive
+
+# Supabase free projects pause after about a week of inactivity, which would leave the live demo blank.
+# Loading the home page runs a database query, which counts as activity.
+on:
+  schedule:
+    - cron: "0 6 */3 * *"   # every 3 days
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Load the live site (queries the database)
+        run: curl -fsS --max-time 60 https://hyperloom-henna.vercel.app/ -o /dev/null
