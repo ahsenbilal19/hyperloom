@@ -2,7 +2,7 @@
 
 Full-stack storefront with animated UI, Stripe test checkout, user accounts, an admin dashboard and **Loom**, an AI shopping assistant built on RAG.
 
-**Live demo:** _add your Vercel link here_ · **Stack:** Next.js, Tailwind, Framer Motion, Supabase (Postgres, Auth, RLS, pgvector), Stripe, Gemini API
+**Live demo:** _(https://hyperloom-henna.vercel.app/)_ · **Stack:** Next.js, Tailwind, Framer Motion, Supabase (Postgres, Auth, RLS, pgvector), Stripe, Gemini API
 
 ![Home](docs/home.png)
 

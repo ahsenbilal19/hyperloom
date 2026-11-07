@@ -1,0 +1,23 @@
+-- Hyperloom: hybrid search = price filters + vector similarity (run in the Supabase SQL Editor)
+drop function if exists match_products(vector, int);
+
+create or replace function match_products(
+  query_embedding vector(768),
+  match_count int default 5,
+  max_price int default null,   -- cents
+  min_price int default null    -- cents
+)
+returns table (id uuid, slug text, name text, tagline text, description text, category text,
+               price_cents int, stock int, rating numeric, accent text, accent2 text, similarity float)
+language sql stable as $$
+  select p.id, p.slug, p.name, p.tagline, p.description, p.category, p.price_cents, p.stock, p.rating,
+         p.accent, p.accent2, 1 - (p.embedding <=> query_embedding) as similarity
+  from products p
+  where p.embedding is not null
+    and (max_price is null or p.price_cents <= max_price)
+    and (min_price is null or p.price_cents >= min_price)
+  order by p.embedding <=> query_embedding
+  limit match_count;
+$$;
+
+revoke all on function match_products(vector, int, int, int) from public, anon, authenticated;

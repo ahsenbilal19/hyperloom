@@ -13,3 +13,4 @@ jobs:
     steps:
       - name: Load the live site (queries the database)
         run: curl -fsS --max-time 60 https://hyperloom-henna.vercel.app/ -o /dev/null
+        
