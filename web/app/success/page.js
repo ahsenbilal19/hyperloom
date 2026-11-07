@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
-import { stripe } from "@/lib/stripe";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { fulfillSession } from "@/lib/fulfill";
 import ClearCart from "@/components/ClearCart";
 import DownloadReceipt from "@/components/DownloadReceipt";
 import { money } from "@/lib/format";
@@ -12,17 +11,7 @@ export default async function Success({ searchParams }) {
   const { session_id } = await searchParams;
   let order = null, error = "";
   try {
-    const s = await stripe.checkout.sessions.retrieve(session_id, { expand: ["line_items.data.price.product"] });
-    if (s.payment_status !== "paid") throw new Error("Payment not completed.");
-    const items = s.line_items.data.map((li) => ({
-      product_id: li.price.product.metadata.product_id, name: li.description, qty: li.quantity, unit_price_cents: li.price.unit_amount,
-    }));
-    const { data, error: e } = await supabaseAdmin.rpc("place_order", { p_session: s.id, p_email: s.customer_details?.email || null, p_total: s.amount_total, p_items: items, p_user: s.client_reference_id || null });
-    if (e) throw new Error(e.message);
-    order = {
-      number: String(data).slice(0, 8).toUpperCase(), total: s.amount_total, email: s.customer_details?.email || "", items,
-      date: new Date(s.created * 1000).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" }) + " UTC",
-    };
+    order = await fulfillSession(session_id);
   } catch (e) { error = e.message; }
 
   if (error) return <main className="mx-auto max-w-xl px-5 py-24 text-center text-red-400">Something went wrong confirming your order: {error}</main>;

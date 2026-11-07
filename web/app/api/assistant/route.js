@@ -2,6 +2,7 @@ import { embed, generateJson } from "@/lib/gemini";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 30; // seconds, LLM calls can be slow
 
 const hits = (globalThis._asstHits ??= new Map());
 function limited(ip) {
